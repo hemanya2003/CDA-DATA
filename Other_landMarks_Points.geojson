@@ -1,0 +1,32 @@
+{
+"type": "FeatureCollection",
+"name": "Other_landMarks_Points",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 1, "OBJECTID_1": 37, "level_3": "Bus Depot Ev", "Shape_Leng": 0.0072489380383500002, "ORIG_FID": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.779613380453213, 20.482102656312577 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 2, "OBJECTID_1": 86, "level_3": "Ravenshaw University Campus", "Shape_Leng": 0.034831205017699998, "ORIG_FID": 1 }, "geometry": { "type": "Point", "coordinates": [ 85.796734901094851, 20.487438245878423 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 3, "OBJECTID_1": 124, "level_3": "RTO Office", "Shape_Leng": 0.0033319568744499999, "ORIG_FID": 2 }, "geometry": { "type": "Point", "coordinates": [ 85.843999186713177, 20.471577042346667 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 4, "OBJECTID_1": 135, "level_3": "CDA Sub Station", "Shape_Leng": 0.012534715293300001, "ORIG_FID": 3 }, "geometry": { "type": "Point", "coordinates": [ 85.846923758624598, 20.471048102487998 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 5, "OBJECTID_1": 177, "level_3": "CDA Sewerage Treatment Plant", "Shape_Leng": 0.0113502367504, "ORIG_FID": 4 }, "geometry": { "type": "Point", "coordinates": [ 85.848725420841561, 20.472258046771515 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 6, "OBJECTID_1": 270, "level_3": "Biju Pattanaik Multipurpose Stadium", "Shape_Leng": 0.00476265763484, "ORIG_FID": 5 }, "geometry": { "type": "Point", "coordinates": [ 85.83884797885122, 20.474620231238703 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 7, "OBJECTID_1": 278, "level_3": "Water Tank", "Shape_Leng": 0.00036215420424300001, "ORIG_FID": 6 }, "geometry": { "type": "Point", "coordinates": [ 85.83288791894239, 20.475326122602553 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 8, "OBJECTID_1": 295, "level_3": "Water Tank", "Shape_Leng": 0.00274863438651, "ORIG_FID": 7 }, "geometry": { "type": "Point", "coordinates": [ 85.839313541686636, 20.475867310328169 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 9, "OBJECTID_1": 350, "level_3": "Biren Mitra Park", "Shape_Leng": 0.0043450744172000002, "ORIG_FID": 8 }, "geometry": { "type": "Point", "coordinates": [ 85.821055201536353, 20.476484617571089 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 10, "OBJECTID_1": 384, "level_3": "DAV Public School", "Shape_Leng": 0.0012555526102400001, "ORIG_FID": 9 }, "geometry": { "type": "Point", "coordinates": [ 85.83622664934046, 20.477518393659011 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 11, "OBJECTID_1": 413, "level_3": "Jagannath Temple Sector 6", "Shape_Leng": 0.00248822575652, "ORIG_FID": 10 }, "geometry": { "type": "Point", "coordinates": [ 85.841973856808124, 20.477575654392979 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 12, "OBJECTID_1": 454, "level_3": "Water Tank", "Shape_Leng": 0.00070695310464499999, "ORIG_FID": 11 }, "geometry": { "type": "Point", "coordinates": [ 85.835494660550182, 20.478376265951965 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 13, "OBJECTID_1": 468, "level_3": "Jayapraksh Park", "Shape_Leng": 0.0048412099988800004, "ORIG_FID": 12 }, "geometry": { "type": "Point", "coordinates": [ 85.841057221014012, 20.477768596743374 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 14, "OBJECTID_1": 616, "level_3": "Justice Jugal Kishore Park", "Shape_Leng": 0.0035524793197899999, "ORIG_FID": 13 }, "geometry": { "type": "Point", "coordinates": [ 85.832301260594761, 20.479607898285906 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 15, "OBJECTID_1": 644, "level_3": "Play Ground", "Shape_Leng": 0.00047235757338000002, "ORIG_FID": 14 }, "geometry": { "type": "Point", "coordinates": [ 85.817465542301022, 20.480206786514032 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 16, "OBJECTID_1": 959, "level_3": "Biji Pattanaik Park", "Shape_Leng": 0.018367186474, "ORIG_FID": 15 }, "geometry": { "type": "Point", "coordinates": [ 85.812739419688512, 20.485552927825381 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 17, "OBJECTID_1": 1486, "level_3": "Community Hall", "Shape_Leng": 0.0029780379599799998, "ORIG_FID": 16 }, "geometry": { "type": "Point", "coordinates": [ 85.819130217985219, 20.482589554664287 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 18, "OBJECTID_1": 1598, "level_3": "Water Treatment Plant", "Shape_Leng": 0.0115038183318, "ORIG_FID": 17 }, "geometry": { "type": "Point", "coordinates": [ 85.810106363917612, 20.484578246189187 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 19, "OBJECTID_1": 1682, "level_3": "Maulana Azad National Urdu University", "Shape_Leng": 0.0074751039849799998, "ORIG_FID": 18 }, "geometry": { "type": "Point", "coordinates": [ 85.810814193320425, 20.491290004430198 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 20, "OBJECTID_1": 1741, "level_3": "Power Sub Station 33/11Kv", "Shape_Leng": 0.0083449586394799997, "ORIG_FID": 19 }, "geometry": { "type": "Point", "coordinates": [ 85.812369149017059, 20.489010272506107 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 21, "OBJECTID_1": 1745, "level_3": "National Law University Odisha", "Shape_Leng": 0.021964387159800002, "ORIG_FID": 20 }, "geometry": { "type": "Point", "coordinates": [ 85.792233149440335, 20.48625907459666 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 22, "OBJECTID_1": 1746, "level_3": "Police AID Post", "Shape_Leng": 0.0039249589473300001, "ORIG_FID": 21 }, "geometry": { "type": "Point", "coordinates": [ 85.780883896774469, 20.482732320240416 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 23, "OBJECTID_1": 1747, "level_3": "GAIL CNG Station", "Shape_Leng": 0.0022308435693700001, "ORIG_FID": 22 }, "geometry": { "type": "Point", "coordinates": [ 85.82025532112624, 20.476304486962533 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 24, "OBJECTID_1": 1787, "level_3": "Park Sector 11", "Shape_Leng": 0.0018365381580499999, "ORIG_FID": 24 }, "geometry": { "type": "Point", "coordinates": [ 85.817125647130979, 20.479249840407874 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 25, "OBJECTID_1": 1788, "level_3": "Police Station Sector 11", "Shape_Leng": 0.00156301019415, "ORIG_FID": 25 }, "geometry": { "type": "Point", "coordinates": [ 85.8172357268474, 20.479562499609699 ] } }
+]
+}
