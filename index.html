@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>CDA Professional Map</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+<style>
+  body { margin:0; padding:0; font-family: Arial, sans-serif; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+
+  .sidebar {
+    position: absolute; top: 10px; left: 10px; background: white;
+    padding: 10px; width: 230px; max-height: 90%; overflow-y: auto;
+    border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 1;
+  }
+  .sidebar h3 { margin:0 0 10px 0; font-size:16px; text-align:center; }
+  .layer-item { margin-bottom: 8px; display:flex; justify-content:space-between; align-items:center; }
+  .layer-item label { cursor:pointer; font-size:14px; }
+
+  .legend {
+    position: absolute; bottom: 10px; left: 10px;
+    background: white; padding: 10px; border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    font-size: 13px; display:grid; grid-template-columns: repeat(2, 1fr); gap:5px 15px;
+  }
+  .legend-item { display:flex; align-items:center; }
+  .legend-color { width:18px; height:18px; margin-right:5px; border:1px solid #555; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="sidebar" id="sidebar">
+  <h3>Layers</h3>
+  <div class="layer-item"><label for="osm">OSM</label><input type="checkbox" id="osm" checked></div>
+  <div class="layer-item"><label for="drone">Drone</label><input type="checkbox" id="drone" checked></div>
+  <div class="layer-item"><label for="cda">CDA Boundary</label><input type="checkbox" id="cda" checked></div>
+  <div class="layer-item"><label for="sector">Sector Boundary</label><input type="checkbox" id="sector" checked></div>
+  <div class="layer-item"><label for="village">Village Boundary</label><input type="checkbox" id="village" checked></div>
+  <div class="layer-item"><label for="plot">Plot Boundary</label><input type="checkbox" id="plot" checked></div>
+  <div class="layer-item"><label for="landuse">Landuse</label><input type="checkbox" id="landuse" checked></div>
+  <div class="layer-item"><label for="buildings">Buildings</label><input type="checkbox" id="buildings" checked></div>
+  <div class="layer-item"><label for="landmarks">Landmarks</label><input type="checkbox" id="landmarks" checked></div>
+</div>
+
+<div class="legend" id="legend">
+  <div class="legend-item"><div class="legend-color" style="background:yellow"></div>Built Up Area</div>
+  <div class="legend-item"><div class="legend-color" style="background:red"></div>Road</div>
+  <div class="legend-item"><div class="legend-color" style="background:darkgreen"></div>Tree Cover</div>
+  <div class="legend-item"><div class="legend-color" style="background:blue"></div>Water Logged</div>
+  <div class="legend-item"><div class="legend-color" style="background:white"></div>Others</div>
+  <div class="legend-item"><div class="legend-color" style="background:lightgray"></div>Building 3m</div>
+  <div class="legend-item"><div class="legend-color" style="background:gray"></div>Building 6m</div>
+  <div class="legend-item"><div class="legend-color" style="background:royalblue"></div>Building 9m</div>
+  <div class="legend-item"><div class="legend-color" style="background:darkblue"></div>Building 12m</div>
+  <div class="legend-item"><div class="legend-color" style="background:purple"></div>Landmarks</div>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+<script>
+const map = new maplibregl.Map({
+  container:'map',
+  style:{version:8, sources:{}, layers:[]},
+  center:[85.809,20.49],
+  zoom:15,
+  pitch:45,
+  bearing:-17
+});
+
+map.on('load',()=>{
+
+  // Base layers
+  map.addSource('osm',{type:'raster', tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize:256});
+  map.addLayer({id:'osm-layer', type:'raster', source:'osm'});
+
+  map.addSource('drone',{type:'raster', tiles:['https://api.maptiler.com/tiles/0198ea48-d4b4-71fc-bb03-b123be1c869f/{z}/{x}/{y}.webp?key=E6ZRsLot4eQsQImxowwm'], tileSize:256});
+  map.addLayer({id:'drone-layer', type:'raster', source:'drone'});
+
+  function addVector(id,url,type,paint,popupFields=[],labelField=null,labelColor='black'){
+    map.addSource(id,{type:'geojson', data:url});
+    map.addLayer({id:id+'-layer', type:type, source:id, paint:paint});
+
+    if(labelField){
+      map.addLayer({
+        id:id+'-label',
+        type:'symbol',
+        source:id,
+        layout:{'text-field':['get',labelField],'text-size':12,'text-anchor':'top','text-offset':[0,0.8],'text-allow-overlap':true},
+        paint:{'text-color':labelColor}
+      });
+    }
+
+    if(popupFields.length>0){
+      map.on('click', id+'-layer', (e)=>{
+        const props = e.features[0].properties;
+        const html = popupFields.map(f=>`<strong>${f}:</strong> ${props[f]}`).join('<br>');
+        new maplibregl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+      });
+      map.on('mouseenter', id+'-layer',()=>map.getCanvas().style.cursor='pointer');
+      map.on('mouseleave', id+'-layer',()=>map.getCanvas().style.cursor='');
+    }
+  }
+
+  // ----------------------------
+  addVector('cda','https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/CDA_Boundary.geojson','line',
+            {'line-color':'red','line-width':3});
+// Sector boundaries
+// 1️⃣ Fill layer (invisible but clickable for popup)
+addVector(
+    'sector_fill',
+    'https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/Sector_Boundary.geojson',
+    'fill',
+    {
+        'fill-color': 'orange',
+        'fill-opacity': 0.01   // almost invisible but clickable
+    },
+    ['Name', 'AREA'],          // popup fields
+    true                       // enable popup
+);
+
+// 2️⃣ Line layer (visible borders)
+addVector(
+    'sector_line',
+    'https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/Sector_Boundary.geojson',
+    'line',
+    {
+        'line-color': 'orange',
+        'line-width': 2
+    }
+);
+
+// Village boundaries
+// Fill layer
+addVector(
+    'village_fill',
+    'https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/VillageBoundary.geojson',
+    'fill',
+    {
+        'fill-color': 'blue',
+        'fill-opacity': 0.01
+    },
+    ['VILL_NAME'],
+    true
+);
+
+// Line layer
+addVector(
+    'village_line',
+    'https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/VillageBoundary.geojson',
+    'line',
+    {
+        'line-color': 'blue',
+        'line-width': 2
+    }
+);
+
+
+  addVector('plot','https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/PlotBoundary.geojson','line',
+            {'line-color':'orange','line-width':0.5});
+  
+  // Landuse colors
+  addVector('landuse','https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/Landuse-CDA.geojson','fill',{
+    'fill-color':['match',['get','level_3'],'Built Up Area','yellow','Road','red','Tree Cover Area','darkgreen','Water Logged','blue','Others','white','gray'],
+    'fill-opacity':0.6,
+    'fill-outline-color':'black'
+  });
+
+  // Buildings with height-based color
+  addVector('buildings','https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/CDA-BUILDINGS_with_atributes1.geojson','fill-extrusion',{
+    'fill-extrusion-color':['match',['get','height'],3,'lightgray',6,'gray',9,'royalblue',12,'darkblue','lightgray'],
+    'fill-extrusion-height':['get','height'],
+    'fill-extrusion-base':0,
+    'fill-extrusion-opacity':0.9
+  },['Plot_No','Owner_Name','Contact_Nu','Occupancy_']);
+
+  // Landmarks permanent labels
+map.addSource('landmarks', {
+    type: 'geojson',
+    data: 'https://raw.githubusercontent.com/hemanya2003/CDA-DATA/main/Other_landMarks_Points.geojson'
+});
+
+// Add circle to show points
+map.addLayer({
+    id: 'landmarks-points',
+    type: 'circle',
+    source: 'landmarks',
+    paint: {
+        'circle-radius': 6,
+        'circle-color': 'purple',
+        'circle-stroke-color': 'white',
+        'circle-stroke-width': 1
+    }
+});
+
+// Add permanent labels using the 'level_3' column
+map.addLayer({
+    id: 'landmarks-labels',
+    type: 'symbol',
+    source: 'landmarks',
+    layout: {
+        'text-field': ['get', 'level_3'],
+        'text-size': 14,
+        'text-offset': [0, 1.2],
+        'text-anchor': 'top',
+        'text-allow-overlap': true,   // allows permanent display
+        'icon-allow-overlap': true
+    },
+    paint: {
+        'text-color': 'white',
+        'text-halo-color': 'black',
+        'text-halo-width': 1.2
+    }
+});
+
+
+  // ----------------------------
+// Map layer mapping: checkbox ID → array of actual map layer names
+const layerMap = {
+    'sector': ['sector_fill-layer', 'sector_line-layer'],
+    'village': ['village_fill-layer', 'village_line-layer'],
+    'osm': ['osm-layer'],
+    'drone': ['drone-layer'],
+    'cda': ['cda-layer'],
+    'plot': ['plot-layer'],
+    'landuse': ['landuse-layer'],
+    'buildings': ['buildings-layer'],
+    'landmarks': ['landmarks-points','landmarks-labels']  // your landmark layers
+};
+Object.keys(layerMap).forEach(id => {
+    const checkbox = document.getElementById(id);
+    if(!checkbox) return;
+
+    checkbox.addEventListener('change', (e) => {
+        const visibility = e.target.checked ? 'visible' : 'none';
+        layerMap[id].forEach(layerName => {
+            if(map.getLayer(layerName)) {
+                map.setLayoutProperty(layerName, 'visibility', visibility);
+            }
+        });
+    });
+});
+
+
+
+map.addControl(new maplibregl.NavigationControl());
+
+});
+</script>
+</body>
+</html>
